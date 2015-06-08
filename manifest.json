@@ -1,0 +1,31 @@
+{
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "manifest_version": 2,
+  "name": "CANARY",
+  "description": "PoC Medical Email Scanner",
+  "version": "0.1",
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
+  "browser_action": {
+    "default_icon": "logo.png"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "run_at": "document_end",
+    "persistent": false
+  },
+  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html"
+  },
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "clipboardWrite",
+    "notifications",
+    "storage"
+  ]
+}
