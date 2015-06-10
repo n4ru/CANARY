@@ -1,4 +1,5 @@
-window.addEventListener('DOMContentLoaded', function() {
+//document.addEventListener('DOMContentLoaded', function() {
+  console.log("doing things")
     /*
     chrome.runtime.onMessage.addListener(function getFunctions(req, send, resp) {
         if (req.functions) {
@@ -19,10 +20,10 @@ window.addEventListener('DOMContentLoaded', function() {
         //...and send a request for the DOM info... 
         chrome.tabs.sendMessage(tabs[0].id, {
                 run: true
-            },
+            }
             /* ...also specifying a callback to be called 
                  from the receiving end (content script*/
             //setDOMInfo
         );
     });
-})
+//})

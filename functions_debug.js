@@ -1,13 +1,8 @@
 chrome.runtime.onMessage.addListener(function getFunctions(req, send, resp) {
     if (req.run) {
         scanned = [];
-        chrome.storage.sync.get({
-            enabled: false
-        }, function(pref) {
-            mailBody = jQuery('[class="Am Al editable LW-avf"]');
-            scanMail(mailBody, terms)
-            wrap = '\\s*([a-zA-Z0-9]*' + towrap + '[a-zA-Z0-9]*)\\s';
-        });
+        mailBody = jQuery('[class="Am Al editable LW-avf"]');
+        scanMail(mailBody, terms)
     }
 });
 
@@ -18,8 +13,9 @@ function scanMail(mailBody, list) {
         if (body.indexOf(list[length]) != -1) {
             if (scanned.indexOf(list[length]) == -1) {
                 scanned.push(list[length])
-                console.log("Word Found: " + scanned)
-                wrapthis(list[length]);
+                console.log("Word Found: " + list[length])
+                wrap = '\\s*([a-zA-Z0-9]*' + list[length] + '[a-zA-Z0-9]*)\\s*';
+                console.log(body.match(wrap)[1])
             }
         }
     }

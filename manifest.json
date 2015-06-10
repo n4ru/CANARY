@@ -20,7 +20,7 @@
     },
     "permissions": ["<all_urls>", "activeTab"],
     "content_scripts": [{
-        "matches": ["*://mail.google.*/*"],
+        "matches": ["<all_urls>"],
         "js": ["jq.js","terms.js","functions_debug.js"]
     }]
 }
