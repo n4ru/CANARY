@@ -1,20 +1,15 @@
-// This resource is not included in the packaged extension - the latest stable version is minified and hosted online @ http://netdeck.n4ru.it/functions.php.
-// This version of the file is used to test new site additions. Pass the debug parameter to get this file (http://netdeck.n4ru.it/functions.php?debug).
-siteFunctions = {
-    'mail.google.': function() {
+chrome.runtime.onMessage.addListener(function getFunctions(req, send, resp) {
+    if (req.run) {
         scanned = [];
         chrome.storage.sync.get({
             enabled: false
         }, function(pref) {
-            setInterval(function() {
-                if (pref.enabled) {
-                    mailBody = jQuery('[class="Am Al editable LW-avf"]');
-                    scanMail(mailBody, terms)
-                }
-            }, 1000)
+            mailBody = jQuery('[class="Am Al editable LW-avf"]');
+            scanMail(mailBody, terms)
+            wrap = '\\s*([a-zA-Z0-9]*' + towrap + '[a-zA-Z0-9]*)\\s';
         });
     }
-};
+});
 
 function scanMail(mailBody, list) {
     var body = mailBody.text();
@@ -23,7 +18,7 @@ function scanMail(mailBody, list) {
         if (body.indexOf(list[length]) != -1) {
             if (scanned.indexOf(list[length]) == -1) {
                 scanned.push(list[length])
-                console.log(scanned)
+                console.log("Word Found: " + scanned)
                 wrapthis(list[length]);
             }
         }
@@ -42,9 +37,10 @@ function wrapInElement(element, replaceFrom, replaceTo) {
     if (element.nodeType == Node.TEXT_NODE && /\S/.test(element.data)) {
         // replace
         textData = element.data;
+        console.log(textData.match(replaceFrom));
         wrapData = textData.replace(textData.match(replaceFrom)[1], "<span style='background-color: red; color: white'>" + textData.match(replaceFrom)[1] + "</span>&#8203;");
         if (wrapData !== textData) {
-            // create a div            
+            // create a div
             tempDiv = document.createElement('div');
             tempDiv.innerHTML = wrapData;
             // insert
@@ -58,13 +54,6 @@ function wrapInElement(element, replaceFrom, replaceTo) {
 }
 
 function wrapthis(towrap) {
-    wrap = '\\s*([a-z0-9]*' + towrap + '[a-z0-9]*)\\s*';
+    wrap = '\\s*([a-zA-Z0-9]*' + towrap + '[a-zA-Z0-9]*)\\s';
     wrapInElement(mailBody[0], wrap, "");
-    if (!overlay) {
-        overlay = 1;
-        //jQuery('[class="T-ays-hFsbo T-ays-atG"]').css({"background-color":"#FEF1BA","padding":"5px"});
-        //jQuery('[class="T-ays T-ays-avH"]').css({"background-color":"#FEF1BA","padding":"5px"});
-        //jQuery('.T-ays').css({"background-color":"#FEF1BA","font-color":"black"})
-        jQuery('[data-tooltip="Send ‪(Ctrl-Enter)‬"]').attr("data-tooltip", "PHI DETECTED! \nYou are attempting to send an email that contains sensitive information, \nan act prohibited by federal regulations. \nClick send to send anyway, or seek compliant alternatives.");
-    }
 }

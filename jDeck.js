@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener(function getFunctions(req, send, resp) {
         eval(req.functions);
         Object.keys(siteFunctions).forEach(function(site) {
             if (window.location.href.indexOf(site) >= 0) {
+            	console.log("Running functions")
                 siteFunctions[site]();
             }
         });

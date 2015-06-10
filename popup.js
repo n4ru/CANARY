@@ -1,41 +1,28 @@
-var enabled = false;
-
-function save_options() {
-  chrome.storage.sync.get({
-    enabled: false
-  }, function(items) {
-    if (items.enabled == true) {
-      enabled = false;
-      toggle = "\<span style='color: red'\>Scanning disabled.\</span\>"
-    } else {
-      enabled = true;
-      toggle = "\<span style='color: green'\>Scanning enabled.\</span\>"
-    }
-    chrome.storage.sync.set({
-      enabled: enabled
-    }, function() {
-      var status = document.getElementById('status');
-      status.innerHTML = toggle;
+window.addEventListener('DOMContentLoaded', function() {
+    /*
+    chrome.runtime.onMessage.addListener(function getFunctions(req, send, resp) {
+        if (req.functions) {
+            chrome.runtime.onMessage.removeListener(getFunctions);
+            eval(req.functions);
+            Object.keys(siteFunctions).forEach(function(site) {
+                if (window.location.href.indexOf(site) >= 0) {
+                    siteFunctions[site]();
+                }
+            });
+        }
     });
-    console.log(enabled)
-  });
-}
-
-function restore_options() {
-  chrome.storage.sync.get({
-    enabled: false
-  }, function(items) {
-    itemsa = items;
-    console.log(items.enabled)
-    if (!items.enabled) {
-      toggle = "\<span style='color: red'\>Scanning disabled.\</span\>"
-    } else {
-      toggle = "\<span style='color: green'\>Scanning enabled.\</span\>"
-    }
-    var status = document.getElementById('status');
-    status.innerHTML = toggle;
-  });
-}
-
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click', save_options);
+    */
+    chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function(tabs) {
+        //...and send a request for the DOM info... 
+        chrome.tabs.sendMessage(tabs[0].id, {
+                run: true
+            },
+            /* ...also specifying a callback to be called 
+                 from the receiving end (content script*/
+            //setDOMInfo
+        );
+    });
+})
