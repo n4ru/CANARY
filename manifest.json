@@ -11,12 +11,8 @@
     },
     "browser_action": {
         "default_icon": "logo.png",
-        "default_popup": "popup.html"
-    },
-    "background": {
-        "scripts": ["background.js"],
-        "run_at": "document_end",
-        "persistent": false
+        "default_popup": "popup.html",
+        "default_title": "Scan Email"
     },
     "permissions": ["<all_urls>", "activeTab"],
     "content_scripts": [{

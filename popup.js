@@ -1,29 +1,19 @@
-//document.addEventListener('DOMContentLoaded', function() {
-  console.log("doing things")
-    /*
-    chrome.runtime.onMessage.addListener(function getFunctions(req, send, resp) {
-        if (req.functions) {
-            chrome.runtime.onMessage.removeListener(getFunctions);
-            eval(req.functions);
-            Object.keys(siteFunctions).forEach(function(site) {
-                if (window.location.href.indexOf(site) >= 0) {
-                    siteFunctions[site]();
-                }
-            });
+function setthings(info) {
+    if (typeof info !== 'undefined' && info.length > 0) {
+        document.getElementById('stuff').innerHTML = "<span style='color: red; font-size: 14px'>We matched the following PHI terms:</br>";
+        for (i = 0; i < info.length; i++) {
+            document.getElementById('stuff').innerHTML = document.getElementById('stuff').innerHTML + info[i] + "</br>";
         }
-    });
-    */
-    chrome.tabs.query({
-        active: true,
-        currentWindow: true
-    }, function(tabs) {
-        //...and send a request for the DOM info... 
-        chrome.tabs.sendMessage(tabs[0].id, {
-                run: true
-            }
-            /* ...also specifying a callback to be called 
-                 from the receiving end (content script*/
-            //setDOMInfo
-        );
-    });
-//})
+    } else {
+        document.getElementById('stuff').innerHTML = "<span style='color: green; font-size: 14px'>No PHI was found.</span>";
+    }
+    document.getElementById('stuff').innerHTML = document.getElementById('stuff').innerHTML + "</br><span style='font-size: 10px'>These scans are based on early dictionary matches.</br>They do not reflect the accuracy of the final product.</span></span>";
+}
+chrome.tabs.query({
+    active: true,
+    currentWindow: true
+}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+        run: true
+    }, setthings);
+});
