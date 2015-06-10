@@ -1,4 +1,7 @@
+console.log("LOADING")
+
 chrome.browserAction.onClicked.addListener(function(tab) {
+    console.log("Load start")
     chrome.tabs.executeScript(tab.id, {
         file: 'jq.js'
     }, function() {

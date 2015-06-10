@@ -3,10 +3,16 @@
 siteFunctions = {
     'mail.google.': function() {
         scanned = [];
-        setInterval(function() {
-            mailBody = jQuery('[class="Am Al editable LW-avf"]');
-            scanMail(mailBody, terms)
-        }, 1000)
+        chrome.storage.sync.get({
+            enabled: false
+        }, function(pref) {
+            setInterval(function() {
+                if (pref.enabled) {
+                    mailBody = jQuery('[class="Am Al editable LW-avf"]');
+                    scanMail(mailBody, terms)
+                }
+            }, 1000)
+        });
     }
 };
 
@@ -36,7 +42,7 @@ function wrapInElement(element, replaceFrom, replaceTo) {
     if (element.nodeType == Node.TEXT_NODE && /\S/.test(element.data)) {
         // replace
         textData = element.data;
-        wrapData = textData.replace(textData.match(replaceFrom)[1], "<span style='background-color: red; color: white'>"+textData.match(replaceFrom)[1]+"</span>&#8203;");
+        wrapData = textData.replace(textData.match(replaceFrom)[1], "<span style='background-color: red; color: white'>" + textData.match(replaceFrom)[1] + "</span>&#8203;");
         if (wrapData !== textData) {
             // create a div            
             tempDiv = document.createElement('div');
@@ -52,6 +58,13 @@ function wrapInElement(element, replaceFrom, replaceTo) {
 }
 
 function wrapthis(towrap) {
-    wrap = '\\s*([a-z0-9]*'+towrap+'[a-z0-9]*)\\s*';
+    wrap = '\\s*([a-z0-9]*' + towrap + '[a-z0-9]*)\\s*';
     wrapInElement(mailBody[0], wrap, "");
+    if (!overlay) {
+        overlay = 1;
+        //jQuery('[class="T-ays-hFsbo T-ays-atG"]').css({"background-color":"#FEF1BA","padding":"5px"});
+        //jQuery('[class="T-ays T-ays-avH"]').css({"background-color":"#FEF1BA","padding":"5px"});
+        //jQuery('.T-ays').css({"background-color":"#FEF1BA","font-color":"black"})
+        jQuery('[data-tooltip="Send ‪(Ctrl-Enter)‬"]').attr("data-tooltip", "PHI DETECTED! \nYou are attempting to send an email that contains sensitive information, \nan act prohibited by federal regulations. \nClick send to send anyway, or seek compliant alternatives.");
+    }
 }

@@ -10,7 +10,8 @@
     "128": "logo.png"
   },
   "browser_action": {
-    "default_icon": "logo.png"
+    "default_icon": "logo.png",
+    "default_popup": "popup.html" 
   },
   "background": {
     "scripts": ["background.js"],
